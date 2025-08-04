@@ -24,10 +24,9 @@ jobs:
       run: npm install -g @google/clasp
       
     - name: Create clasp credentials
-      run: |
-        cat << 'EOF' > ~/.clasprc.json
-        ${{ secrets.CLASPRC_JSON }}
-        EOF
+      run: echo "$CLASPRC_JSON" > ~/.clasprc.json
+      env:
+        CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         
     - name: Debug credentials
       run: |

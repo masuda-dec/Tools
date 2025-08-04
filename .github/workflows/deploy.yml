@@ -2,45 +2,55 @@ name: Deploy to Google Apps Script
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'backlog-sheets-integration/**'
+      - "backlog-sheets-integration/**"
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
-    - name: Install clasp
-      run: npm install -g @google/clasp
-      
-    - name: Create clasp credentials
-      run: echo "$CLASPRC_JSON" > ~/.clasprc.json
-      env:
-        CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-        
-    - name: Debug credentials
-      run: |
-        echo "Checking credentials file..."
-        ls -la ~/.clasprc.json
-        echo "File size:"
-        wc -c ~/.clasprc.json
-        echo "First 100 characters:"
-        head -c 100 ~/.clasprc.json
-        
-    - name: Push to Google Apps Script
-      run: clasp push --force
-      working-directory: ./backlog-sheets-integration
-      
-    - name: Deploy to production
-      run: clasp deploy --description "Auto-deploy from GitHub Actions"
-      working-directory: ./backlog-sheets-integration
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Create clasp credentials
+        run: echo "$CLASPRC_JSON" > ~/.clasprc.json
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+
+      - name: Debug credentials
+        run: |
+          echo "Checking credentials file..."
+          ls -la ~/.clasprc.json
+          echo "File size:"
+          wc -c ~/.clasprc.json
+          echo "First 100 characters:"
+          head -c 100 ~/.clasprc.json
+
+      - name: Debug working directory
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Directory contents:"
+          ls -la
+          echo ".clasp.json contents:"
+          cat .clasp.json
+        working-directory: ./backlog-sheets-integration
+
+      - name: Push to Google Apps Script
+        run: clasp push --force
+        working-directory: ./backlog-sheets-integration
+
+      - name: Deploy to production
+        run: clasp deploy --description "Auto-deploy from GitHub Actions"
+        working-directory: ./backlog-sheets-integration

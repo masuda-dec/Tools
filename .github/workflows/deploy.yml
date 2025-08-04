@@ -47,6 +47,9 @@ jobs:
           cat .clasp.json
         working-directory: ./backlog-sheets-integration
 
+      - name: Copy credentials to project directory  
+        run: cp ~/.clasprc.json ./backlog-sheets-integration/.clasprc.json
+        
       - name: Push to Google Apps Script
         run: clasp push --force
         working-directory: ./backlog-sheets-integration

@@ -59,3 +59,18 @@ function doPost(e) {
     return ContentService.createTextOutput("Error: " + error.toString());
   }
 }
+
+// テスト用関数 - 手動実行でスプレッドシートに書き込みテスト
+function testWrite() {
+  const sheet = SpreadsheetApp.getActiveSheet();
+  const timestamp = new Date();
+  sheet.appendRow([
+    timestamp,
+    "TEST",
+    "test-branch",
+    "abc123",
+    "test-user",
+    "テスト書き込み - GAS正常動作中"
+  ]);
+  Logger.log("Test write completed");
+}

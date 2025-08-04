@@ -21,49 +21,12 @@ jobs:
           node-version: "23"
 
       - name: Install clasp
-        run: |
-          npm install -g @google/clasp
-          echo "Clasp version:"
-          clasp --version
-          echo "Node version:"
-          node --version
+        run: npm install -g @google/clasp
 
       - name: Create clasp credentials
         run: echo "$CLASPRC_JSON" > ~/.clasprc.json
         env:
           CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
-
-      - name: Debug credentials
-        run: |
-          echo "Checking credentials file..."
-          ls -la ~/.clasprc.json
-          echo "File size:"
-          wc -c ~/.clasprc.json
-          echo "First 100 characters:"
-          head -c 100 ~/.clasprc.json
-
-      - name: Debug working directory
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Directory contents:"
-          ls -la
-          echo ".clasp.json contents:"
-          cat .clasp.json
-        working-directory: ./backlog-sheets-integration
-
-      - name: Copy credentials to project directory  
-        run: cp ~/.clasprc.json ./backlog-sheets-integration/.clasprc.json
-        
-      - name: Debug credentials in project directory
-        run: |
-          echo "Checking credentials in project directory:"
-          ls -la .clasprc.json
-          echo "Contents:"
-          cat .clasprc.json
-          echo "Clasp status check:"
-          clasp login --status || echo "Login status check failed"
-        working-directory: ./backlog-sheets-integration
         
       - name: Push to Google Apps Script
         run: |

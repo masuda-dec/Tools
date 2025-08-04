@@ -1,11 +1,15 @@
 function doPost(e) {
   try {
+    // デバッグ用：受信データをログ出力
+    Logger.log("Received webhook data: " + JSON.stringify(e));
+    
     // BacklogのGit Webhookデータを解析
     if (!e.parameter.payload) {
       throw new Error("No payload found");
     }
 
     const webhookData = JSON.parse(e.parameter.payload);
+    Logger.log("Parsed webhook: " + JSON.stringify(webhookData));
     const sheet = SpreadsheetApp.getActiveSheet();
     const timestamp = new Date();
     const nullHash = "0000000000000000000000000000000000000000";

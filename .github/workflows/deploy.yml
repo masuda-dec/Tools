@@ -29,6 +29,15 @@ jobs:
         ${{ secrets.CLASPRC_JSON }}
         EOF
         
+    - name: Debug credentials
+      run: |
+        echo "Checking credentials file..."
+        ls -la ~/.clasprc.json
+        echo "File size:"
+        wc -c ~/.clasprc.json
+        echo "First 100 characters:"
+        head -c 100 ~/.clasprc.json
+        
     - name: Push to Google Apps Script
       run: clasp push --force
       working-directory: ./backlog-sheets-integration

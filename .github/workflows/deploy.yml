@@ -60,11 +60,11 @@ jobs:
           clasp login --status || echo "Login status check failed"
         working-directory: ./backlog-sheets-integration
         
-      - name: Push to Google Apps Script
-        run: |
-          export CLASP_AUTH="$(cat .clasprc.json)"
-          clasp push --force
+      - name: Push to Google Apps Script  
+        run: clasp push --force
         working-directory: ./backlog-sheets-integration
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: .clasprc.json
 
       - name: Deploy to production
         run: clasp deploy --description "Auto-deploy from GitHub Actions"

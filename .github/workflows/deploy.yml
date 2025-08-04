@@ -61,7 +61,9 @@ jobs:
         working-directory: ./backlog-sheets-integration
         
       - name: Push to Google Apps Script
-        run: clasp push --force
+        run: |
+          export CLASP_AUTH="$(cat .clasprc.json)"
+          clasp push --force
         working-directory: ./backlog-sheets-integration
 
       - name: Deploy to production

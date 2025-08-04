@@ -50,6 +50,16 @@ jobs:
       - name: Copy credentials to project directory  
         run: cp ~/.clasprc.json ./backlog-sheets-integration/.clasprc.json
         
+      - name: Debug credentials in project directory
+        run: |
+          echo "Checking credentials in project directory:"
+          ls -la .clasprc.json
+          echo "Contents:"
+          cat .clasprc.json
+          echo "Clasp status check:"
+          clasp login --status || echo "Login status check failed"
+        working-directory: ./backlog-sheets-integration
+        
       - name: Push to Google Apps Script
         run: clasp push --force
         working-directory: ./backlog-sheets-integration
